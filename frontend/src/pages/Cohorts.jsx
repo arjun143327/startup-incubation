@@ -135,8 +135,8 @@ const Cohorts = () => {
   const renderCohortCards = () => {
     if (cohorts.length === 0) {
       return (
-        <div className="glass rounded-2xl p-10 text-center border border-neutral-700/50">
-          <p className="text-neutral-400">No cohorts found.</p>
+        <div className="surface-card p-10 text-center">
+          <p className="text-slate-400">No cohorts found.</p>
         </div>
       );
     }
@@ -146,25 +146,25 @@ const Cohorts = () => {
         {cohorts.map((cohort) => (
           <div
             key={cohort.cohort_id}
-            className="bg-neutral-800/60 border border-neutral-700/50 hover:border-blue-500/30 rounded-2xl p-6 transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)] group"
+            className="surface-card group p-6 transition-all duration-300 hover:-translate-y-1 hover:border-sky-400/30 hover:shadow-[0_0_30px_rgba(56,189,248,0.12)]"
           >
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
+              <h3 className="text-xl font-bold text-white transition-colors group-hover:text-sky-300">
                 {cohort.cohort_name}
               </h3>
               <Badge tone={statusTone(cohort.status)}>{cohort.status}</Badge>
             </div>
-            <div className="space-y-2 text-sm text-neutral-400">
+            <div className="space-y-2 text-sm text-slate-400">
               <p>
                 Starts:{' '}
-                <span className="text-neutral-200">{new Date(cohort.start_date).toLocaleDateString()}</span>
+                <span className="text-slate-200">{new Date(cohort.start_date).toLocaleDateString()}</span>
               </p>
               <p>
-                Ends: <span className="text-neutral-200">{new Date(cohort.end_date).toLocaleDateString()}</span>
+                Ends: <span className="text-slate-200">{new Date(cohort.end_date).toLocaleDateString()}</span>
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-neutral-700/50 flex justify-end">
-              <div className="text-sm font-medium text-blue-400/90">Active Program</div>
+            <div className="mt-6 flex justify-end border-t border-white/8 pt-4">
+              <div className="text-sm font-medium text-sky-300">Active Program</div>
             </div>
           </div>
         ))}
@@ -176,10 +176,8 @@ const Cohorts = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-end gap-4">
         <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-            Cohorts
-          </h1>
-          <p className="text-neutral-400 mt-1">Manage cohort cycles and enroll startups.</p>
+          <h1 className="page-header-title">Cohorts</h1>
+          <p className="page-header-copy">Manage cohort cycles and enroll startups.</p>
         </div>
 
         {role === 'Admin' ? <Badge tone="info">Admin Actions</Badge> : null}
@@ -190,7 +188,7 @@ const Cohorts = () => {
           <Card className="p-6">
             <h2 className="text-lg font-semibold mb-4">Create Cohort</h2>
             {formError ? (
-              <div className="mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-200 text-sm">{formError}</div>
+              <div className="alert-error mb-4 text-sm">{formError}</div>
             ) : null}
 
             <form onSubmit={submitCreateCohort} className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -267,7 +265,7 @@ const Cohorts = () => {
       {loading ? (
         <Loading label="Loading cohorts..." />
       ) : error ? (
-        <div className="glass rounded-2xl p-6 border border-red-500/30 bg-red-500/10 text-red-200">{error}</div>
+        <div className="surface-card alert-error p-6">{error}</div>
       ) : (
         renderCohortCards()
       )}

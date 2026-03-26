@@ -138,14 +138,12 @@ const Mentoring = () => {
     <div className="space-y-6">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-green-400">
-            Mentoring
-          </h1>
-          <p className="text-neutral-400 mt-1">Book sessions and submit feedback.</p>
+          <h1 className="page-header-title">Mentoring</h1>
+          <p className="page-header-copy">Book sessions and submit feedback.</p>
         </div>
       </div>
 
-      {error ? <div className="glass rounded-2xl p-6 border border-red-500/30 bg-red-500/10 text-red-200">{error}</div> : null}
+      {error ? <div className="surface-card alert-error p-6">{error}</div> : null}
 
       {(role === 'Founder' || role === 'Admin') && (
         <Card className="p-6">
@@ -155,9 +153,9 @@ const Mentoring = () => {
           ) : (
             <form onSubmit={bookSession} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-neutral-300 mb-1.5">Startup</label>
+                <label className="field-label">Startup</label>
                 <select
-                  className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                  className="field-control"
                   value={form.startup_id}
                   onChange={(e) => setForm({ ...form, startup_id: e.target.value })}
                   required
@@ -174,9 +172,9 @@ const Mentoring = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-300 mb-1.5">Mentor</label>
+                <label className="field-label">Mentor</label>
                 <select
-                  className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                  className="field-control"
                   value={form.mentor_id}
                   onChange={(e) => setForm({ ...form, mentor_id: e.target.value })}
                   required
@@ -193,10 +191,10 @@ const Mentoring = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-300 mb-1.5">Session Date</label>
+                <label className="field-label">Session Date</label>
                 <input
                   type="datetime-local"
-                  className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                  className="field-control"
                   value={form.session_date}
                   onChange={(e) => setForm({ ...form, session_date: e.target.value })}
                   required
@@ -204,9 +202,9 @@ const Mentoring = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-300 mb-1.5">Mode</label>
+                <label className="field-label">Mode</label>
                 <select
-                  className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                  className="field-control"
                   value={form.mode}
                   onChange={(e) => setForm({ ...form, mode: e.target.value })}
                 >
@@ -235,7 +233,7 @@ const Mentoring = () => {
         ) : (
           <Table>
             <thead>
-              <tr className="bg-neutral-900/50 text-neutral-400 text-sm uppercase tracking-wider border-b border-neutral-700/50">
+              <tr>
                 <th className="px-6 py-4 font-semibold">Startup</th>
                 <th className="px-6 py-4 font-semibold">Date</th>
                 <th className="px-6 py-4 font-semibold">Mode</th>
@@ -243,11 +241,11 @@ const Mentoring = () => {
                 <th className="px-6 py-4 font-semibold">Feedback</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-neutral-700/50">
+            <tbody>
               {sessions.map((s) => {
                 const canFeedback = s.status !== 'Completed' && (role === 'Founder' || role === 'Mentor');
                 return (
-                  <tr key={s.session_id} className="hover:bg-neutral-800/80 transition-colors text-neutral-200 align-top">
+                  <tr key={s.session_id} className="align-top">
                     <td className="px-6 py-4">
                       <div className="font-medium">{s.company_name || `Startup #${s.startup_id}`}</div>
                     </td>
@@ -265,7 +263,7 @@ const Mentoring = () => {
                             type="number"
                             min="1"
                             max="5"
-                            className="w-24 px-3 py-2 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white"
+                            className="field-control w-24 px-3 py-2"
                             value={feedbackDrafts[s.session_id]?.rating ?? ''}
                             onChange={(e) =>
                               setFeedbackDrafts({
@@ -292,7 +290,7 @@ const Mentoring = () => {
                             type="number"
                             min="1"
                             max="5"
-                            className="w-24 px-3 py-2 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white"
+                            className="field-control w-24 px-3 py-2"
                             value={feedbackDrafts[s.session_id]?.rating ?? ''}
                             onChange={(e) =>
                               setFeedbackDrafts({
@@ -303,7 +301,7 @@ const Mentoring = () => {
                             disabled={!canFeedback}
                           />
                           <textarea
-                            className="w-full px-3 py-2 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                            className="field-control w-full px-3 py-2"
                             rows={2}
                             placeholder="Notes (optional)"
                             value={feedbackDrafts[s.session_id]?.notes ?? ''}
@@ -328,9 +326,9 @@ const Mentoring = () => {
                         </div>
                       )}
 
-                      {role === 'Admin' && <div className="text-neutral-400 text-sm">Founder/Mentor provide feedback.</div>}
+                      {role === 'Admin' && <div className="text-sm text-slate-400">Founder/Mentor provide feedback.</div>}
                       {role !== 'Founder' && role !== 'Mentor' && role !== 'Admin' ? (
-                        <div className="text-neutral-400 text-sm">Feedback unavailable.</div>
+                        <div className="text-sm text-slate-400">Feedback unavailable.</div>
                       ) : null}
                     </td>
                   </tr>
@@ -345,4 +343,3 @@ const Mentoring = () => {
 };
 
 export default Mentoring;
-

@@ -89,7 +89,7 @@ const Funding = () => {
 
   if (!allowed) {
     return (
-      <div className="glass rounded-2xl p-10 border border-neutral-700/50 text-neutral-300">
+      <div className="surface-card p-10 text-slate-300">
         Funding is only available to Admin and Founder roles.
       </div>
     );
@@ -98,22 +98,22 @@ const Funding = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-green-400">Funding</h1>
-        <p className="text-neutral-400 mt-1">Document funding rounds for startups.</p>
+        <h1 className="page-header-title">Funding</h1>
+        <p className="page-header-copy">Document funding rounds for startups.</p>
       </div>
 
       {loading ? (
         <Loading label="Loading funding..." />
       ) : error ? (
-        <div className="glass rounded-2xl p-6 border border-red-500/30 bg-red-500/10 text-red-200">{error}</div>
+        <div className="surface-card alert-error p-6">{error}</div>
       ) : (
         <Card className="p-6">
           <h2 className="text-lg font-semibold mb-4">Add Funding Round</h2>
           <form onSubmit={submitFunding} className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-1.5">Startup</label>
+              <label className="field-label">Startup</label>
               <select
-                className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                className="field-control"
                 value={form.startup_id}
                 onChange={(e) => setForm({ ...form, startup_id: e.target.value })}
                 required
@@ -130,9 +130,9 @@ const Funding = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-1.5">Round Type</label>
+              <label className="field-label">Round Type</label>
               <select
-                className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                className="field-control"
                 value={form.round_type}
                 onChange={(e) => setForm({ ...form, round_type: e.target.value })}
               >
@@ -144,11 +144,11 @@ const Funding = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-1.5">Amount</label>
+              <label className="field-label">Amount</label>
               <input
                 type="number"
                 step="0.01"
-                className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                className="field-control"
                 value={form.amount}
                 onChange={(e) => setForm({ ...form, amount: e.target.value })}
                 placeholder="e.g., 250000"
@@ -157,10 +157,10 @@ const Funding = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-1.5">Round Date</label>
+              <label className="field-label">Round Date</label>
               <input
                 type="date"
-                className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                className="field-control"
                 value={form.round_date}
                 onChange={(e) => setForm({ ...form, round_date: e.target.value })}
                 required
@@ -168,9 +168,9 @@ const Funding = () => {
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-neutral-300 mb-1.5">Lead Investor (optional)</label>
+              <label className="field-label">Lead Investor (optional)</label>
               <select
-                className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                className="field-control"
                 value={form.lead_investor_id}
                 onChange={(e) => setForm({ ...form, lead_investor_id: e.target.value })}
               >
@@ -184,7 +184,7 @@ const Funding = () => {
             </div>
 
             <div className="md:col-span-2 flex justify-end">
-              <button className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl font-medium shadow-lg hover:shadow-blue-500/25 transition-all">
+              <button className="rounded-2xl bg-[linear-gradient(135deg,#0ea5e9,#6366f1)] px-5 py-2.5 font-medium text-white shadow-[0_12px_36px_rgba(14,165,233,0.28)] transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_44px_rgba(14,165,233,0.38)]">
                 Submit Funding
               </button>
             </div>
@@ -196,4 +196,3 @@ const Funding = () => {
 };
 
 export default Funding;
-

@@ -1,12 +1,13 @@
 import React from 'react';
 
-const Card = ({ className = '', children }) => {
+const Card = ({ className = '', children, style }) => {
   return (
     <div
       className={[
-        'bg-neutral-800/50 border border-neutral-700/50 rounded-2xl shadow-2xl',
+        'surface-card',
         className,
       ].join(' ')}
+      style={style}
     >
       {children}
     </div>
@@ -14,4 +15,3 @@ const Card = ({ className = '', children }) => {
 };
 
 export default Card;
-

@@ -80,10 +80,8 @@ const Applications = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-end gap-4">
         <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
-            Applications
-          </h1>
-          <p className="text-neutral-400 mt-1">Track submissions and manage evaluation.</p>
+          <h1 className="page-header-title">Applications</h1>
+          <p className="page-header-copy">Track submissions and manage evaluation.</p>
         </div>
         {user.role === 'Founder' && (
           <Button
@@ -97,30 +95,30 @@ const Applications = () => {
       </div>
 
       {loading ? (
-        <div className="text-center py-10 text-neutral-400">Loading applications...</div>
+        <div className="py-10 text-center text-slate-400">Loading applications...</div>
       ) : startups.length === 0 ? (
-        <div className="glass rounded-2xl p-10 text-center border border-neutral-700/50">
-          <p className="text-neutral-400">No applications found.</p>
+        <div className="surface-card p-10 text-center">
+          <p className="text-slate-400">No applications found.</p>
         </div>
       ) : (
         <Card className="overflow-hidden">
           {error ? (
-            <div className="p-6 border-b border-neutral-700/50 text-red-200 bg-red-500/10">{error}</div>
+            <div className="alert-error border-b border-white/8 p-6">{error}</div>
           ) : null}
 
           <Table>
             <thead>
-              <tr className="bg-neutral-900/50 text-neutral-400 text-sm uppercase tracking-wider border-b border-neutral-700/50">
+              <tr>
                 <th className="px-6 py-4 font-semibold">Company Name</th>
                 <th className="px-6 py-4 font-semibold">Industry</th>
                 <th className="px-6 py-4 font-semibold">Status</th>
                 {user.role === 'Admin' && <th className="px-6 py-4 font-semibold text-right">Actions</th>}
               </tr>
             </thead>
-            <tbody className="divide-y divide-neutral-700/50">
+            <tbody>
               {startups.map((s) => (
-                <tr key={s.startup_id} className="hover:bg-neutral-800/80 transition-colors group text-neutral-200">
-                  <td className="px-6 py-4 font-medium group-hover:text-blue-400 transition-colors">{s.company_name}</td>
+                <tr key={s.startup_id} className="group">
+                  <td className="px-6 py-4 font-medium transition-colors group-hover:text-sky-300">{s.company_name}</td>
                   <td className="px-6 py-4">{s.industry_sector || 'N/A'}</td>
                   <td className="px-6 py-4">
                     <Badge tone={statusTone(s.status)}>{s.status}</Badge>
@@ -157,7 +155,7 @@ const Applications = () => {
       {user.role === 'Founder' && showCreate && (
         <Card className="p-6">
           <h2 className="text-lg font-semibold mb-4">New Application</h2>
-          {formError ? <div className="mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-200 text-sm">{formError}</div> : null}
+          {formError ? <div className="alert-error mb-4 text-sm">{formError}</div> : null}
           <form onSubmit={createApplication} className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="md:col-span-2">
               <Input
@@ -189,9 +187,9 @@ const Applications = () => {
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-neutral-300 mb-1.5">Idea Description</label>
+              <label className="field-label">Idea Description</label>
               <textarea
-                className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                className="field-control"
                 value={form.idea_description}
                 onChange={(e) => setForm({ ...form, idea_description: e.target.value })}
                 placeholder="Describe the problem, solution, and why now."

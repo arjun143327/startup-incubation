@@ -130,29 +130,27 @@ const InvestorPipeline = () => {
     <div className="space-y-6">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
-            Investor Pipeline
-          </h1>
-          <p className="text-neutral-400 mt-1">Track investor interest and manage introductions.</p>
+          <h1 className="page-header-title">Investor Pipeline</h1>
+          <p className="page-header-copy">Track investor interest and manage introductions.</p>
         </div>
       </div>
 
       {loading ? (
         <Loading label="Loading investor pipeline..." />
       ) : error ? (
-        <div className="glass rounded-2xl p-6 border border-red-500/30 bg-red-500/10 text-red-200">{error}</div>
+        <div className="surface-card alert-error p-6">{error}</div>
       ) : (
         <>
           {(role === 'Investor' || role === 'Admin') && (
             <Card className="overflow-hidden">
-              <div className="px-6 py-4 border-b border-neutral-700/50 flex items-center justify-between">
+              <div className="flex items-center justify-between border-b border-white/8 px-6 py-4">
                 <h2 className="text-lg font-semibold">Pipeline Summary</h2>
               </div>
               {pipeline.length === 0 ? (
-                <div className="p-6 text-neutral-400">No pipeline entries yet.</div>
+                <div className="p-6 text-slate-400">No pipeline entries yet.</div>
               ) : (
                 <Table>
-                  <thead className="bg-neutral-900/50 text-neutral-400 text-sm uppercase tracking-wider border-b border-neutral-700/50">
+                  <thead>
                     <tr>
                       {Object.keys(pipeline[0]).map((k) => (
                         <th key={k} className="px-6 py-3 font-semibold">
@@ -161,9 +159,9 @@ const InvestorPipeline = () => {
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-neutral-700/50">
+                  <tbody>
                     {pipeline.slice(0, 50).map((row, idx) => (
-                      <tr key={idx} className="hover:bg-neutral-800/80 transition-colors text-neutral-200">
+                      <tr key={idx}>
                         {Object.keys(pipeline[0]).map((k) => (
                           <td key={k} className="px-6 py-3">
                             {String(row[k] ?? '')}
@@ -178,13 +176,13 @@ const InvestorPipeline = () => {
           )}
 
           {role === 'Investor' && (
-            <div className="bg-neutral-800/50 border border-neutral-700/50 rounded-2xl p-6 shadow-2xl">
+            <div className="surface-card p-6">
               <h2 className="text-lg font-semibold mb-4">Express Interest</h2>
               <form onSubmit={expressInterest} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-neutral-300 mb-1.5">Startup</label>
+                  <label className="field-label">Startup</label>
                   <select
-                    className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                    className="field-control"
                     value={interestForm.startup_id}
                     onChange={(e) => setInterestForm({ ...interestForm, startup_id: e.target.value })}
                     required
@@ -201,9 +199,9 @@ const InvestorPipeline = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-neutral-300 mb-1.5">Investor</label>
+                  <label className="field-label">Investor</label>
                   <select
-                    className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                    className="field-control"
                     value={interestForm.investor_id}
                     onChange={(e) => setInterestForm({ ...interestForm, investor_id: e.target.value })}
                     required
@@ -221,7 +219,7 @@ const InvestorPipeline = () => {
                 </div>
 
                 <div className="md:col-span-2 flex justify-end">
-                  <button className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl font-medium shadow-lg hover:shadow-blue-500/25 transition-all">
+                  <button className="rounded-2xl bg-[linear-gradient(135deg,#0ea5e9,#6366f1)] px-5 py-2.5 font-medium text-white shadow-[0_12px_36px_rgba(14,165,233,0.28)] transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_44px_rgba(14,165,233,0.38)]">
                     Record Interest
                   </button>
                 </div>
@@ -231,18 +229,18 @@ const InvestorPipeline = () => {
 
           {role === 'Admin' && (
             <Card className="overflow-hidden">
-              <div className="px-6 py-4 border-b border-neutral-700/50 flex items-center justify-between">
+              <div className="flex items-center justify-between border-b border-white/8 px-6 py-4">
                 <h2 className="text-lg font-semibold">Investor Interests</h2>
               </div>
 
               {adminInterestsLoading ? (
                 <Loading label="Loading interests..." />
               ) : adminInterests.length === 0 ? (
-                <div className="p-6 text-neutral-400">No interests found.</div>
+                <div className="p-6 text-slate-400">No interests found.</div>
               ) : (
                 <Table>
                   <thead>
-                    <tr className="bg-neutral-900/50 text-neutral-400 text-sm uppercase tracking-wider border-b border-neutral-700/50">
+                    <tr>
                       <th className="px-6 py-3 font-semibold text-left">Startup</th>
                       <th className="px-6 py-3 font-semibold text-left">Investor</th>
                       <th className="px-6 py-3 font-semibold">Status</th>
@@ -250,9 +248,9 @@ const InvestorPipeline = () => {
                       <th className="px-6 py-3 font-semibold text-right">Update</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-neutral-700/50">
+                  <tbody>
                     {adminInterests.map((it) => (
-                      <tr key={it.interest_id} className="hover:bg-neutral-800/80 transition-colors text-neutral-200">
+                      <tr key={it.interest_id}>
                         <td className="px-6 py-3">
                           {it.company_name ?? `Startup #${it.startup_id}`}
                         </td>
@@ -262,7 +260,7 @@ const InvestorPipeline = () => {
                         <td className="px-6 py-3">
                           <Badge tone={interestStatusTone(it.status)}>{it.status}</Badge>
                         </td>
-                        <td className="px-6 py-3 text-neutral-300 text-sm">
+                        <td className="px-6 py-3 text-sm text-slate-300">
                           {it.created_at ? String(it.created_at).slice(0, 10) : '—'}
                         </td>
                         <td className="px-6 py-3 text-right space-x-2">
@@ -305,4 +303,3 @@ const InvestorPipeline = () => {
 };
 
 export default InvestorPipeline;
-

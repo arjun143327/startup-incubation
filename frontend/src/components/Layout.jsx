@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Outlet, Navigate, Link, useNavigate } from 'react-router-dom';
+import { Outlet, Navigate, Link, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 
 const Layout = () => {
@@ -50,41 +50,75 @@ const Layout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-900 text-neutral-100 font-sans">
-      <nav className="bg-neutral-800 border-b border-neutral-700 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-md">
-        <h1 className="text-2xl font-bold text-blue-400 tracking-tight">StartupNest</h1>
-        <div className="flex items-center gap-6">
-          <span className="text-neutral-300">
-            {user.full_name} <span className="ml-2 px-2 py-1 text-xs font-semibold bg-neutral-700 text-blue-300 rounded-lg">{user.role}</span>
-          </span>
-          <button 
-            onClick={handleLogout} 
-            className="text-sm font-medium text-red-400 hover:text-red-300 transition-colors bg-neutral-700/50 hover:bg-neutral-700 px-4 py-2 rounded-lg"
-          >
-            Logout
-          </button>
-        </div>
-      </nav>
-      <div className="flex">
-        <aside className="w-64 bg-neutral-800/50 border-r border-neutral-700 min-h-[calc(100vh-73px)] p-6">
-          <ul className="space-y-1">
-            {menuItems.map((item) => (
-              <li key={item.to}>
-                <Link
-                  to={item.to}
-                  className="block py-2 px-3 rounded-lg hover:bg-neutral-700 transition-colors text-neutral-300 hover:text-white"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </aside>
-        <main className="flex-1 p-8 overflow-y-auto">
-          <div className="max-w-6xl mx-auto">
-            <Outlet />
+    <div className="app-shell">
+      <div className="app-orb app-orb-a" />
+      <div className="app-orb app-orb-b" />
+      <div className="app-orb app-orb-c" />
+
+      <div className="app-content">
+        <nav className="app-nav sticky top-0 z-50 px-4 py-4 sm:px-6">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <Link to="/" className="brand-chip">
+                <span className="brand-chip-label">StartupNest</span>
+              </Link>
+              <div className="hidden md:block">
+                <h1 className="brand-mark text-2xl">StartupNest</h1>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 sm:gap-6">
+              <span className="hidden text-slate-300 sm:block">
+                {user.full_name}
+                <span className="ml-2 rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1 text-xs font-semibold text-sky-300">
+                  {user.role}
+                </span>
+              </span>
+              <button
+                onClick={handleLogout}
+                className="rounded-2xl border border-rose-400/15 bg-rose-400/8 px-4 py-2 text-sm font-medium text-rose-300 transition-all hover:bg-rose-400/14 hover:text-rose-200"
+              >
+                Logout
+              </button>
+            </div>
           </div>
-        </main>
+        </nav>
+
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-6 lg:flex-row lg:px-6">
+          <aside className="surface-card h-fit w-full overflow-hidden lg:sticky lg:top-24 lg:w-72">
+            <div className="border-b border-white/8 px-5 py-4">
+              <div className="text-sm font-medium text-slate-500">Navigation</div>
+            </div>
+            <div className="p-4">
+              <ul className="space-y-2">
+                {menuItems.map((item) => (
+                  <li key={item.to}>
+                    <NavLink
+                      to={item.to}
+                      end={item.to === '/'}
+                      className={({ isActive }) =>
+                        [
+                          'block rounded-2xl px-4 py-3 text-sm font-medium transition-all',
+                          isActive
+                            ? 'border border-sky-400/20 bg-[linear-gradient(135deg,rgba(14,165,233,0.14),rgba(99,102,241,0.14))] text-sky-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]'
+                            : 'text-slate-300 hover:bg-white/5 hover:text-white',
+                        ].join(' ')
+                      }
+                    >
+                      {item.label}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </aside>
+
+          <main className="min-w-0 flex-1">
+            <div className="mx-auto max-w-6xl">
+              <Outlet />
+            </div>
+          </main>
+        </div>
       </div>
     </div>
   );

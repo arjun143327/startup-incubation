@@ -217,20 +217,18 @@ const Milestones = () => {
     <div className="space-y-6">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-            Milestones
-          </h1>
-          <p className="text-neutral-400 mt-1">Create milestone templates and track startup progress.</p>
+          <h1 className="page-header-title">Milestones</h1>
+          <p className="page-header-copy">Create milestone templates and track startup progress.</p>
         </div>
       </div>
 
       {loading ? (
         <Loading label="Loading milestones..." />
       ) : error ? (
-        <div className="glass rounded-2xl p-6 border border-red-500/30 bg-red-500/10 text-red-200">{error}</div>
+        <div className="surface-card alert-error p-6">{error}</div>
       ) : role !== 'Admin' && role !== 'Founder' ? (
-        <div className="glass rounded-2xl p-10 text-center border border-neutral-700/50">
-          <p className="text-neutral-400">Milestones are available to Admin and Founder roles.</p>
+        <div className="surface-card p-10 text-center">
+          <p className="text-slate-400">Milestones are available to Admin and Founder roles.</p>
         </div>
       ) : (
         <>
@@ -250,9 +248,9 @@ const Milestones = () => {
                   </div>
 
                   <div className="md:col-span-1">
-                    <label className="block text-sm font-medium text-neutral-300 mb-1.5">Title</label>
+                    <label className="field-label">Title</label>
                     <input
-                      className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                      className="field-control"
                       value={milestoneForm.title}
                       onChange={(e) => setMilestoneForm({ ...milestoneForm, title: e.target.value })}
                       placeholder="e.g., MVP Completed"
@@ -261,10 +259,10 @@ const Milestones = () => {
                   </div>
 
                   <div className="md:col-span-1">
-                    <label className="block text-sm font-medium text-neutral-300 mb-1.5">Deadline</label>
+                    <label className="field-label">Deadline</label>
                     <input
                       type="date"
-                      className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                      className="field-control"
                       value={milestoneForm.deadline}
                       onChange={(e) => setMilestoneForm({ ...milestoneForm, deadline: e.target.value })}
                       required
@@ -272,9 +270,9 @@ const Milestones = () => {
                   </div>
 
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-neutral-300 mb-1.5">Description</label>
+                    <label className="field-label">Description</label>
                     <textarea
-                      className="w-full px-4 py-3 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                      className="field-control"
                       value={milestoneForm.description}
                       onChange={(e) => setMilestoneForm({ ...milestoneForm, description: e.target.value })}
                       placeholder="What evidence should founders provide?"
@@ -311,7 +309,7 @@ const Milestones = () => {
                 ) : (
                   <Table>
                     <thead>
-                      <tr className="bg-neutral-900/50 text-neutral-400 text-sm uppercase tracking-wider border-b border-neutral-700/50">
+                      <tr>
                         <th className="px-6 py-4 font-semibold">Startup</th>
                         <th className="px-6 py-4 font-semibold">Milestone</th>
                         <th className="px-6 py-4 font-semibold">Deadline</th>
@@ -321,9 +319,9 @@ const Milestones = () => {
                         <th className="px-6 py-4 font-semibold text-right">Action</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-neutral-700/50">
+                    <tbody>
                       {cohortStartupMilestones.map((row) => (
-                        <tr key={row.startup_milestone_id} className="hover:bg-neutral-800/80 transition-colors text-neutral-200">
+                        <tr key={row.startup_milestone_id}>
                           <td className="px-6 py-4 font-medium">{row.company_name}</td>
                           <td className="px-6 py-4">{row.milestone_title}</td>
                           <td className="px-6 py-4">{row.deadline ?? '—'}</td>
@@ -336,7 +334,7 @@ const Milestones = () => {
                                 View
                               </a>
                             ) : (
-                              <span className="text-neutral-500">—</span>
+                              <span className="text-slate-500">—</span>
                             )}
                           </td>
                           <td className="px-6 py-4">
@@ -384,7 +382,7 @@ const Milestones = () => {
               ) : (
                 <Table>
                   <thead>
-                    <tr className="bg-neutral-900/50 text-neutral-400 text-sm uppercase tracking-wider border-b border-neutral-700/50">
+                      <tr>
                       <th className="px-6 py-4 font-semibold">Milestone</th>
                       <th className="px-6 py-4 font-semibold">Deadline</th>
                       <th className="px-6 py-4 font-semibold">Status</th>
@@ -392,9 +390,9 @@ const Milestones = () => {
                       <th className="px-6 py-4 font-semibold text-right">Action</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-neutral-700/50">
+                  <tbody>
                     {startupMilestones.map((row) => (
-                      <tr key={row.startup_milestone_id} className="hover:bg-neutral-800/80 transition-colors text-neutral-200">
+                      <tr key={row.startup_milestone_id}>
                         <td className="px-6 py-4">
                           <div className="font-medium">{row.milestone_title}</div>
                         </td>
@@ -405,7 +403,7 @@ const Milestones = () => {
                         <td className="px-6 py-4">
                           <input
                             type="url"
-                            className="w-full px-4 py-2 bg-neutral-950/50 border border-neutral-800 rounded-xl text-white placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                            className="field-control w-full px-4 py-2"
                             value={evidenceDrafts[row.milestone_id] ?? ''}
                             onChange={(e) => setEvidenceDrafts({ ...evidenceDrafts, [row.milestone_id]: e.target.value })}
                             placeholder="https://..."
@@ -435,4 +433,3 @@ const Milestones = () => {
 };
 
 export default Milestones;
-

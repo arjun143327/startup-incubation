@@ -155,15 +155,15 @@ const Resources = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-white tracking-tight">Resource Library</h1>
-        <p className="text-neutral-400 mt-1">Access guides, templates, and recordings to help you grow.</p>
+        <h1 className="page-header-title">Resource Library</h1>
+        <p className="page-header-copy">Access guides, templates, and recordings to help you grow.</p>
       </div>
 
       {loading ? (
         <Loading label="Loading resources..." />
       ) : resources.length === 0 ? (
-        <div className="glass rounded-2xl p-10 text-center border border-neutral-700/50">
-          <p className="text-neutral-400">No resources available.</p>
+        <div className="surface-card p-10 text-center">
+          <p className="text-slate-400">No resources available.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -173,7 +173,7 @@ const Resources = () => {
               href={r.file_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="block p-5 bg-neutral-800/40 hover:bg-neutral-800/80 border border-neutral-700/50 hover:border-neutral-500 rounded-2xl transition-all duration-300 group"
+              className="surface-card group block p-5 transition-all duration-300 hover:-translate-y-1"
             >
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div className="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -188,8 +188,8 @@ const Resources = () => {
                 </div>
                 <Badge tone="info">{r.category_id}</Badge>
               </div>
-              <h3 className="font-semibold text-neutral-200 group-hover:text-white mb-1 truncate">{r.title}</h3>
-              <p className="text-xs text-neutral-500">Click to view document</p>
+              <h3 className="mb-1 truncate font-semibold text-slate-200 group-hover:text-white">{r.title}</h3>
+              <p className="text-xs text-slate-500">Click to view document</p>
             </a>
           ))}
         </div>
@@ -199,7 +199,7 @@ const Resources = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card className="p-6">
             <h2 className="text-lg font-semibold mb-4">Categories</h2>
-            {error && <div className="mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-200 text-sm">{error}</div>}
+            {error && <div className="alert-error mb-4 text-sm">{error}</div>}
             {categoryLoading ? (
               <Loading label="Loading categories..." />
             ) : (
@@ -218,7 +218,7 @@ const Resources = () => {
 
                 {categories.length > 0 && (
                   <div className="mt-6">
-                    <h3 className="text-sm font-semibold text-neutral-200 mb-2">Existing</h3>
+                    <h3 className="mb-2 text-sm font-semibold text-slate-200">Existing</h3>
                     <div className="flex flex-wrap gap-2">
                       {categories.slice(0, 12).map((c) => (
                         <Badge key={c.id} tone="neutral">

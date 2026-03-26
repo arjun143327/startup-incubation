@@ -7,13 +7,13 @@ const Modal = ({ open, title, children, onClose }) => {
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-black/60" />
       <div className="relative z-10 min-h-full flex items-center justify-center p-4">
-        <div className="w-full max-w-xl bg-neutral-900/90 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl">
-          <div className="px-6 py-4 border-b border-neutral-700/50 flex items-center justify-between">
+        <div className="surface-card w-full max-w-xl bg-[rgba(15,23,42,0.92)]">
+          <div className="flex items-center justify-between border-b border-white/8 px-6 py-4">
             <h2 className="text-lg font-semibold text-white">{title}</h2>
             <button
               type="button"
               onClick={onClose}
-              className="text-neutral-300 hover:text-white transition-colors px-3 py-1 rounded-lg hover:bg-neutral-800"
+              className="rounded-xl px-3 py-1 text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
             >
               Close
             </button>
@@ -26,4 +26,3 @@ const Modal = ({ open, title, children, onClose }) => {
 };
 
 export default Modal;
-

@@ -106,29 +106,27 @@ const Dashboard = () => {
     <div className="space-y-6">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-green-400">
-            {headline}
-          </h1>
-          <p className="text-neutral-400 mt-1">Role-aware view of your program progress.</p>
+          <h1 className="page-header-title">{headline}</h1>
+          <p className="page-header-copy">Role-aware view of your program progress.</p>
         </div>
       </div>
 
       {loading ? (
         <Loading label="Loading dashboard..." />
       ) : error ? (
-        <div className="glass rounded-2xl p-6 border border-red-500/30 bg-red-500/10 text-red-200">{error}</div>
+        <div className="surface-card alert-error p-6">{error}</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {cards.map((c) => (
             <Card
               key={c.title}
-              className="bg-neutral-800/60 p-6 border-t-4"
+              className="p-6 border-t-4"
               style={{
                 borderTopColor:
                   c.accent === 'green' ? 'rgb(34 197 94)' : c.accent === 'purple' ? 'rgb(168 85 247)' : c.accent === 'yellow' ? 'rgb(250 204 21)' : c.accent === 'red' ? 'rgb(248 113 113)' : 'rgb(59 130 246)',
               }}
             >
-              <h3 className="text-neutral-400 font-medium mb-2">{c.title}</h3>
+              <h3 className="mb-2 font-medium text-slate-400">{c.title}</h3>
               <p className="text-4xl font-bold text-white">{c.value}</p>
             </Card>
           ))}
@@ -136,16 +134,16 @@ const Dashboard = () => {
       )}
 
       {role === 'Admin' && !loading && !error && (
-        <div className="bg-neutral-800/50 border border-neutral-700/50 rounded-2xl overflow-hidden shadow-2xl">
-          <div className="px-6 py-4 border-b border-neutral-700/50">
+        <div className="surface-card overflow-hidden">
+          <div className="px-6 py-4 border-b border-white/8">
             <h2 className="text-lg font-semibold">Cohort Summary</h2>
           </div>
           {cohortSummary.length === 0 ? (
-            <div className="p-6 text-neutral-400">No summary data yet.</div>
+            <div className="p-6 text-slate-400">No summary data yet.</div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead className="bg-neutral-900/50 text-neutral-400 text-sm uppercase tracking-wider border-b border-neutral-700/50">
+            <div className="table-shell">
+              <table className="w-full text-left">
+                <thead>
                   <tr>
                     {Object.keys(cohortSummary[0]).map((k) => (
                       <th key={k} className="px-6 py-3 font-semibold">
@@ -154,9 +152,9 @@ const Dashboard = () => {
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-neutral-700/50">
+                <tbody>
                   {cohortSummary.slice(0, 20).map((row, idx) => (
-                    <tr key={idx} className="hover:bg-neutral-800/80 transition-colors text-neutral-200">
+                    <tr key={idx}>
                       {Object.keys(cohortSummary[0]).map((k) => (
                         <td key={k} className="px-6 py-3">
                           {String(row[k] ?? '')}
@@ -175,4 +173,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
