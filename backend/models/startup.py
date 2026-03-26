@@ -11,5 +11,5 @@ class Startup(db.Model):
     idea_description = db.Column(db.Text)
     pitch_deck_url = db.Column(db.String(255))
     cohort_id = db.Column(db.Integer, db.ForeignKey('Cohorts.cohort_id', ondelete='SET NULL'))
-    status = db.Column(db.Enum('Draft', 'Submitted', 'Under Review', 'Accepted', 'Rejected'), default='Draft')
+    status = db.Column(db.String(50), default='Draft')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

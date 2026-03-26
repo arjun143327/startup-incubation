@@ -16,7 +16,7 @@ class InvestorInterest(db.Model):
     interest_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     startup_id = db.Column(db.Integer, db.ForeignKey('Startups.startup_id', ondelete='CASCADE'), nullable=False)
     investor_id = db.Column(db.Integer, db.ForeignKey('Investors.investor_id', ondelete='CASCADE'), nullable=False)
-    status = db.Column(db.Enum('Pending', 'Introduced', 'Passed'), default='Pending')
+    status = db.Column(db.String(50), default='Pending')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class FundingRound(db.Model):

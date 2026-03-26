@@ -19,4 +19,4 @@ class MentoringSession(db.Model):
     notes = db.Column(db.Text)
     founder_rating = db.Column(db.Integer)
     mentor_rating = db.Column(db.Integer)
-    status = db.Column(db.Enum('Scheduled', 'Completed', 'Cancelled'), default='Scheduled')
+    status = db.Column(db.String(50), default='Scheduled')

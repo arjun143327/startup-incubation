@@ -11,6 +11,12 @@ def create_app(config_class=Config):
     db.init_app(app)
     jwt.init_app(app)
 
+    # Import all models before creating tables
+    from models import user, cohort, startup, mentor, investor, milestone, resource, audit
+
+    with app.app_context():
+        db.create_all()
+
     @app.route('/api/health')
     def health_check():
         return jsonify({"status": "healthy"}), 200

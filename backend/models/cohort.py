@@ -8,5 +8,5 @@ class Cohort(db.Model):
     cohort_name = db.Column(db.String(100), nullable=False)
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
-    status = db.Column(db.Enum('Upcoming', 'Active', 'Completed'), default='Upcoming')
+    status = db.Column(db.String(50), default='Upcoming')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
