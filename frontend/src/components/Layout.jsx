@@ -104,31 +104,40 @@ const Layout = () => {
           </div>
         </nav>
 
-        {isMenuOpen ? <button type="button" className="menu-backdrop" onClick={() => setIsMenuOpen(false)} aria-label="Close navigation overlay" /> : null}
+        {isMenuOpen ? (
+          <>
+            <button
+              type="button"
+              className="menu-backdrop"
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close navigation overlay"
+            />
 
-        <aside className={['app-sidebar', 'surface-card', 'h-fit', 'overflow-hidden', isMenuOpen ? 'is-open' : ''].join(' ')}>
-          <div className="p-4">
-            <ul className="app-nav-list">
-              {menuItems.map((item) => (
-                <li key={item.to}>
-                  <NavLink
-                    to={item.to}
-                    end={item.to === '/'}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={({ isActive }) =>
-                      [
-                        'app-nav-link',
-                        isActive ? 'is-active' : '',
-                      ].join(' ')
-                    }
-                  >
-                    {item.label}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </aside>
+            <aside className="app-sidebar is-open surface-card h-fit overflow-hidden">
+              <div className="p-4">
+                <ul className="app-nav-list">
+                  {menuItems.map((item) => (
+                    <li key={item.to}>
+                      <NavLink
+                        to={item.to}
+                        end={item.to === '/'}
+                        onClick={() => setIsMenuOpen(false)}
+                        className={({ isActive }) =>
+                          [
+                            'app-nav-link',
+                            isActive ? 'is-active' : '',
+                          ].join(' ')
+                        }
+                      >
+                        {item.label}
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </aside>
+          </>
+        ) : null}
 
         <main className="app-main app-frame">
           <Outlet />

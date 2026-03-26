@@ -327,7 +327,7 @@ a {
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
   border: 1px solid var(--sn-line);
-  border-radius: 1rem;
+  border-radius: 0.35rem;
   box-shadow: var(--sn-shadow);
   position: relative;
   overflow: hidden;

@@ -13,7 +13,7 @@ const Badge = ({ tone = 'neutral', className = '', children }) => {
   return (
     <span
       className={[
-        'px-3 py-1 text-[11px] font-semibold rounded-full',
+        'px-3 py-1 text-[11px] font-semibold rounded-none',
         tones[tone] ?? tones.neutral,
         className,
       ].join(' ')}
