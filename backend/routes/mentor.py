@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from models.mentor import Mentor, MentoringSession
+from models.startup import Startup
 from extensions import db
 
 mentor_bp = Blueprint('mentor', __name__, url_prefix='/api/mentors')
@@ -37,6 +38,59 @@ def book_session():
     db.session.commit()
     
     return jsonify({"message": "Session booked", "session_id": new_session.session_id}), 201
+
+
+@mentor_bp.route('/sessions', methods=['GET'])
+@jwt_required()
+def list_sessions():
+    """
+    Lists mentoring sessions relevant to the logged-in user:
+    - Mentor: sessions where mentor_id matches their mentor profile
+    - Founder: sessions for startups where they are the founder
+    - Admin: all sessions
+    """
+    claims = get_jwt()
+    role = claims.get('role')
+    user_id = get_jwt_identity()
+
+    if role not in ['Founder', 'Mentor', 'Admin']:
+        return jsonify({"message": "Unauthorized"}), 403
+
+    sessions = []
+    if role == 'Admin':
+        sessions = MentoringSession.query.all()
+    elif role == 'Mentor':
+        mentor = Mentor.query.filter_by(user_id=user_id).first()
+        if mentor:
+            sessions = MentoringSession.query.filter_by(mentor_id=mentor.mentor_id).all()
+        else:
+            sessions = []
+    elif role == 'Founder':
+        startups = Startup.query.filter_by(founder_id=user_id).all()
+        startup_ids = [s.startup_id for s in startups]
+        if startup_ids:
+            sessions = MentoringSession.query.filter(MentoringSession.startup_id.in_(startup_ids)).all()
+        else:
+            sessions = []
+
+    result = []
+    for sess in sessions:
+        startup = Startup.query.get(sess.startup_id)
+        result.append({
+            "session_id": sess.session_id,
+            "startup_id": sess.startup_id,
+            "company_name": startup.company_name if startup else None,
+            "mentor_id": sess.mentor_id,
+            "session_date": sess.session_date.isoformat() if sess.session_date else None,
+            "mode": sess.mode,
+            "notes": sess.notes,
+            "founder_rating": sess.founder_rating,
+            "mentor_rating": sess.mentor_rating,
+            "status": sess.status,
+        })
+
+    return jsonify(result), 200
+
 
 @mentor_bp.route('/sessions/<int:session_id>/feedback', methods=['PUT'])
 @jwt_required()

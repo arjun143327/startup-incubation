@@ -21,12 +21,18 @@ def create_app(config_class=Config):
     from routes.cohort import cohort_bp
     from routes.mentor import mentor_bp
     from routes.investor import investor_bp
+    from routes.milestone import milestone_bp
+    from routes.resource import resource_bp
+    from routes.report import report_bp
     
     app.register_blueprint(auth_bp)
     app.register_blueprint(startup_bp)
     app.register_blueprint(cohort_bp)
     app.register_blueprint(mentor_bp)
     app.register_blueprint(investor_bp)
+    app.register_blueprint(milestone_bp)
+    app.register_blueprint(resource_bp)
+    app.register_blueprint(report_bp)
     
     return app
 

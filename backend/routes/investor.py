@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from models.investor import Investor, InvestorInterest, FundingRound
+from models.startup import Startup
 from extensions import db
 
 investor_bp = Blueprint('investor', __name__, url_prefix='/api/investors')
@@ -32,6 +33,29 @@ def express_interest():
     db.session.commit()
     
     return jsonify({"message": "Interest recorded successfully"}), 201
+
+
+@investor_bp.route('/interest', methods=['GET'])
+@jwt_required()
+def get_investor_interests():
+    claims = get_jwt()
+    if claims.get('role') != 'Admin':
+        return jsonify({"message": "Unauthorized"}), 403
+
+    interests = InvestorInterest.query.all()
+    result = []
+    for it in interests:
+        startup = Startup.query.get(it.startup_id)
+        result.append({
+            "interest_id": it.interest_id,
+            "startup_id": it.startup_id,
+            "company_name": startup.company_name if startup else None,
+            "investor_id": it.investor_id,
+            "status": it.status,
+            "created_at": it.created_at.isoformat() if it.created_at else None,
+        })
+
+    return jsonify(result), 200
 
 @investor_bp.route('/interest/<int:interest_id>/status', methods=['PUT'])
 @jwt_required()
