@@ -176,8 +176,8 @@ const Resources = () => {
               className="surface-card group block p-5 transition-all duration-300 hover:-translate-y-1"
             >
               <div className="flex items-start justify-between gap-3 mb-3">
-                <div className="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-10 h-10 min-w-[2.5rem] bg-blue-500/20 text-blue-400 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -188,7 +188,7 @@ const Resources = () => {
                 </div>
                 <Badge tone="info">{r.category_id}</Badge>
               </div>
-              <h3 className="mb-1 truncate font-semibold text-slate-200 group-hover:text-white">{r.title}</h3>
+              <h3 className="mb-1 truncate font-semibold text-sm text-slate-200 group-hover:text-white">{r.title}</h3>
               <p className="text-xs text-slate-500">Click to view document</p>
             </a>
           ))}
@@ -211,7 +211,7 @@ const Resources = () => {
                     onChange={(e) => setCategoryName(e.target.value)}
                     placeholder="e.g., Pitch Decks"
                   />
-                  <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
+                  <Button type="submit">
                     Create Category
                   </Button>
                 </form>
@@ -260,7 +260,7 @@ const Resources = () => {
                 onChange={(e) => setResourceForm({ ...resourceForm, cohort_id: e.target.value })}
                 options={cohortOptions}
               />
-              <Button type="submit" className="bg-green-600 hover:bg-green-500">
+              <Button type="submit" variant="green">
                 Upload
               </Button>
             </form>

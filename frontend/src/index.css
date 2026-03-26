@@ -382,6 +382,27 @@ a {
   box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.08);
 }
 
+select.field-control {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+select.field-control option {
+  background: #0f172a;
+  color: #f1f5f9;
+  padding: 0.5rem;
+}
+
+input[type="datetime-local"].field-control::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+}
+
 .field-control.is-error {
   border-color: rgba(239, 68, 68, 0.35);
   background: rgba(239, 68, 68, 0.04);

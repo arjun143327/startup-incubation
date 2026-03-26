@@ -223,7 +223,7 @@ const Cohorts = () => {
               </div>
 
               <div className="md:col-span-2 flex justify-end">
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
+                <Button type="submit">
                   Create Cohort
                 </Button>
               </div>
@@ -253,7 +253,7 @@ const Cohorts = () => {
               </div>
 
               <div className="md:col-span-2 flex justify-end">
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
+                <Button type="submit">
                   Enroll
                 </Button>
               </div>

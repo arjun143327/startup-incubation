@@ -227,8 +227,8 @@ const Mentoring = () => {
                 </select>
               </div>
 
-              <div className="md:col-span-2 flex justify-end">
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
+              <div className="md:col-span-2 flex justify-end" style={{ marginTop: '0.5rem' }}>
+                <Button type="submit">
                   Book Session
                 </Button>
               </div>
@@ -289,7 +289,6 @@ const Mentoring = () => {
                           />
                           <Button
                             type="button"
-                            className="px-5 bg-blue-600 hover:bg-blue-500"
                             disabled={!canFeedback}
                             onClick={() => submitFeedback(s.session_id)}
                           >

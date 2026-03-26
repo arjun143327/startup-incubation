@@ -87,7 +87,7 @@ const Applications = () => {
           <Button
             type="button"
             onClick={() => setShowCreate((v) => !v)}
-            className="bg-green-600 hover:bg-green-500"
+            variant={showCreate ? 'ghost' : 'green'}
           >
             {showCreate ? 'Cancel' : '+ New Application'}
           </Button>
@@ -129,7 +129,7 @@ const Applications = () => {
                         <Button
                           type="button"
                           onClick={() => handleEvaluate(s.startup_id, 'Accepted')}
-                          className="bg-green-600 hover:bg-green-500"
+                          variant="green"
                         >
                           Accept
                         </Button>
@@ -198,11 +198,11 @@ const Applications = () => {
               />
             </div>
 
-            <div className="md:col-span-2 flex justify-end gap-3">
-              <Button type="button" variant="ghost" onClick={() => setShowCreate(false)} className="px-5">
+            <div className="md:col-span-2 flex justify-end gap-4" style={{ marginTop: '0.5rem' }}>
+              <Button type="button" variant="ghost" onClick={() => setShowCreate(false)}>
                 Cancel
               </Button>
-              <Button type="submit" className="px-5 py-2.5 bg-green-600 hover:bg-green-500">
+              <Button type="submit" variant="green">
                 Submit Application
               </Button>
             </div>

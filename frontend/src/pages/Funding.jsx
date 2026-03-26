@@ -3,6 +3,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import api from '../api';
 import Loading from '../components/Loading';
 import Card from '../components/Card';
+import Button from '../components/Button';
 
 const Funding = () => {
   const { user } = useContext(AuthContext);
@@ -193,10 +194,10 @@ const Funding = () => {
               </select>
             </div>
 
-            <div className="md:col-span-2 flex justify-end">
-              <button className="rounded-2xl bg-[linear-gradient(135deg,#0ea5e9,#6366f1)] px-5 py-2.5 font-medium text-white shadow-[0_12px_36px_rgba(14,165,233,0.28)] transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_44px_rgba(14,165,233,0.38)]">
+            <div className="md:col-span-2 flex justify-end" style={{ marginTop: '0.5rem' }}>
+              <Button type="submit">
                 Submit Funding
-              </button>
+              </Button>
             </div>
           </form>
         </Card>

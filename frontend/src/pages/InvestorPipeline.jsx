@@ -219,9 +219,9 @@ const InvestorPipeline = () => {
                 </div>
 
                 <div className="md:col-span-2 flex justify-end">
-                  <button className="rounded-2xl bg-[linear-gradient(135deg,#0ea5e9,#6366f1)] px-5 py-2.5 font-medium text-white shadow-[0_12px_36px_rgba(14,165,233,0.28)] transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_44px_rgba(14,165,233,0.38)]">
+                  <Button type="submit">
                     Record Interest
-                  </button>
+                  </Button>
                 </div>
               </form>
             </div>
@@ -263,10 +263,10 @@ const InvestorPipeline = () => {
                         <td className="px-6 py-3 text-sm text-slate-300">
                           {it.created_at ? String(it.created_at).slice(0, 10) : '—'}
                         </td>
-                        <td className="px-6 py-3 text-right space-x-2">
+                        <td className="px-6 py-3 text-right" style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
                           <Button
                             type="button"
-                            className="px-4 bg-yellow-600 hover:bg-yellow-500"
+                            style={{ background: 'linear-gradient(135deg, #ca8a04, #eab308)', boxShadow: '0 8px 24px rgba(202,138,4,0.25)' }}
                             disabled={it.status === 'Pending'}
                             onClick={() => updateInterestStatus(it.interest_id, 'Pending')}
                           >
@@ -274,7 +274,6 @@ const InvestorPipeline = () => {
                           </Button>
                           <Button
                             type="button"
-                            className="px-4 bg-blue-600 hover:bg-blue-500"
                             disabled={it.status === 'Introduced'}
                             onClick={() => updateInterestStatus(it.interest_id, 'Introduced')}
                           >
@@ -282,7 +281,7 @@ const InvestorPipeline = () => {
                           </Button>
                           <Button
                             type="button"
-                            className="px-4 bg-green-600 hover:bg-green-500"
+                            variant="green"
                             disabled={it.status === 'Passed'}
                             onClick={() => updateInterestStatus(it.interest_id, 'Passed')}
                           >

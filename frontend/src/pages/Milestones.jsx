@@ -299,8 +299,8 @@ const Milestones = () => {
                     />
                   </div>
 
-                  <div className="md:col-span-2 flex justify-end">
-                    <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
+                  <div className="md:col-span-2 flex justify-end" style={{ marginTop: '0.5rem' }}>
+                    <Button type="submit">
                       Create Milestone
                     </Button>
                   </div>
@@ -362,7 +362,6 @@ const Milestones = () => {
                           <td className="px-6 py-4 text-right">
                             <Button
                               type="button"
-                              className="px-5 py-2 bg-blue-600 hover:bg-blue-500"
                               disabled={Boolean(row.admin_approved)}
                               onClick={() => approveMilestone(row.startup_milestone_id)}
                             >
@@ -431,7 +430,6 @@ const Milestones = () => {
                         <td className="px-6 py-4 text-right">
                           <Button
                             type="button"
-                            className="px-5 py-2 bg-blue-600 hover:bg-blue-500"
                             disabled={founderLoading}
                             onClick={() => submitEvidence(row.milestone_id)}
                           >
