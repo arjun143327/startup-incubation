@@ -29,6 +29,8 @@ const Funding = () => {
     lead_investor_id: '',
   });
 
+  const isIgnorable422 = (err) => err?.response?.status === 422;
+
   useEffect(() => {
     if (!allowed) {
       setLoading(false);
@@ -39,10 +41,18 @@ const Funding = () => {
       setLoading(true);
       setError('');
       try {
-        const [startupsRes, investorsRes] = await Promise.all([api.get('/startups/'), api.get('/investors/')]);
+        const [startupsRes, investorsRes] = await Promise.allSettled([api.get('/startups/'), api.get('/investors/')]);
         if (!mounted) return;
-        setStartups(startupsRes.data ?? []);
-        setInvestors(investorsRes.data ?? []);
+        setStartups(startupsRes.status === 'fulfilled' ? startupsRes.value.data ?? [] : []);
+        setInvestors(investorsRes.status === 'fulfilled' ? investorsRes.value.data ?? [] : []);
+
+        const startupsError = startupsRes.status === 'rejected' ? startupsRes.reason : null;
+        const investorsError = investorsRes.status === 'rejected' ? investorsRes.reason : null;
+        const blockingError = [startupsError, investorsError].find((err) => err && !isIgnorable422(err));
+
+        if (blockingError) {
+          setError(blockingError?.response?.data?.message || blockingError?.message || 'Failed to load funding data');
+        }
       } catch (e) {
         if (mounted) {
           setError(e?.response?.data?.message || e?.message || 'Failed to load funding data');
@@ -96,7 +106,7 @@ const Funding = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="app-page space-y-6">
       <div>
         <h1 className="page-header-title">Funding</h1>
         <p className="page-header-copy">Document funding rounds for startups.</p>

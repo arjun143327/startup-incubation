@@ -37,6 +37,8 @@ const Milestones = () => {
     deadline: '',
   });
 
+  const isIgnorable422 = (err) => err?.response?.status === 422;
+
   const cohortOptions = useMemo(() => {
     return [
       { value: '', label: 'Select a cohort', disabled: true },
@@ -72,10 +74,18 @@ const Milestones = () => {
       setLoading(true);
       setError('');
       try {
-        const [cohortsRes, startupsRes] = await Promise.all([api.get('/cohorts/'), api.get('/startups/')]);
+        const [cohortsRes, startupsRes] = await Promise.allSettled([api.get('/cohorts/'), api.get('/startups/')]);
         if (!mounted) return;
-        setCohorts(cohortsRes.data ?? []);
-        setStartups(startupsRes.data ?? []);
+        setCohorts(cohortsRes.status === 'fulfilled' ? cohortsRes.value.data ?? [] : []);
+        setStartups(startupsRes.status === 'fulfilled' ? startupsRes.value.data ?? [] : []);
+
+        const cohortsError = cohortsRes.status === 'rejected' ? cohortsRes.reason : null;
+        const startupsError = startupsRes.status === 'rejected' ? startupsRes.reason : null;
+        const blockingError = [cohortsError, startupsError].find((err) => err && !isIgnorable422(err));
+
+        if (blockingError) {
+          setError(blockingError?.response?.data?.message || blockingError?.message || 'Failed to load milestones page');
+        }
       } catch (e) {
         if (mounted) {
           setError(e?.response?.data?.message || e?.message || 'Failed to load milestones page');
@@ -114,7 +124,11 @@ const Milestones = () => {
         setCohortStartupMilestones(res.data ?? []);
       } catch (e) {
         if (!mounted) return;
-        setError(e?.response?.data?.message || e?.message || 'Failed to load cohort milestones');
+        if (isIgnorable422(e)) {
+          setCohortStartupMilestones([]);
+        } else {
+          setError(e?.response?.data?.message || e?.message || 'Failed to load cohort milestones');
+        }
       } finally {
         if (mounted) setAdminLoading(false);
       }
@@ -144,7 +158,12 @@ const Milestones = () => {
         setEvidenceDrafts(nextDrafts);
       } catch (e) {
         if (!mounted) return;
-        setError(e?.response?.data?.message || e?.message || 'Failed to load startup milestones');
+        if (isIgnorable422(e)) {
+          setStartupMilestones([]);
+          setEvidenceDrafts({});
+        } else {
+          setError(e?.response?.data?.message || e?.message || 'Failed to load startup milestones');
+        }
       } finally {
         if (mounted) setFounderLoading(false);
       }
@@ -214,7 +233,7 @@ const Milestones = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="app-page space-y-6">
       <div className="flex items-end justify-between gap-4">
         <div>
           <h1 className="page-header-title">Milestones</h1>

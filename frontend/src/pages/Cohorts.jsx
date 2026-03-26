@@ -173,7 +173,7 @@ const Cohorts = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="app-page space-y-6">
       <div className="flex justify-between items-end gap-4">
         <div>
           <h1 className="page-header-title">Cohorts</h1>

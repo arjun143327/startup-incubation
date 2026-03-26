@@ -99,7 +99,7 @@ const Reports = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="app-page space-y-6">
       <div>
         <h1 className="page-header-title">{title}</h1>
         <p className="page-header-copy">Aggregated program and pipeline reporting.</p>

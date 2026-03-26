@@ -119,12 +119,149 @@ a {
   z-index: 1;
 }
 
+.app-frame {
+  width: min(100%, 1380px);
+  margin: 0 auto;
+  padding: 0;
+}
+
 .app-nav {
   background: rgba(15, 23, 42, 0.72);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--sn-line);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+}
+
+.app-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 0 0.7rem;
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.app-userpanel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.app-usercopy {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #cbd5e1;
+  white-space: nowrap;
+}
+
+.app-sidebar {
+  position: fixed;
+  top: 5.9rem;
+  left: 1rem;
+  bottom: 1rem;
+  width: min(320px, calc(100vw - 2rem));
+  z-index: 30;
+  overflow-y: auto;
+  transform: translateX(calc(-100% - 2rem));
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.app-sidebar.is-open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.app-main {
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+  padding: 0 1rem 1.1rem;
+  margin: 0 auto;
+  display: flow-root;
+  width: min(100%, 1380px);
+}
+
+.app-main > * {
+  width: 100%;
+  margin-top: 0 !important;
+}
+
+.app-page {
+  margin-top: 0 !important;
+  padding-top: 1rem !important;
+}
+
+.app-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.app-nav-link {
+  display: block;
+  padding: 0.85rem 1rem;
+  border-radius: 0.85rem;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+  border: 1px solid transparent;
+}
+
+.app-nav-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.app-nav-link.is-active {
+  border-color: rgba(56, 189, 248, 0.2);
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.14), rgba(99, 102, 241, 0.14));
+  color: #7dd3fc;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.menu-toggle {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.28rem;
+  width: 3rem;
+  height: 3rem;
+  padding: 0.7rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: #cbd5e1;
+}
+
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  border: 0;
+  background: rgba(2, 6, 23, 0.52);
+  backdrop-filter: blur(6px);
 }
 
 .brand-mark {
@@ -190,7 +327,7 @@ a {
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
   border: 1px solid var(--sn-line);
-  border-radius: 1.6rem;
+  border-radius: 1rem;
   box-shadow: var(--sn-shadow);
   position: relative;
   overflow: hidden;
@@ -226,7 +363,7 @@ a {
 .field-control {
   width: 100%;
   padding: 0.85rem 1rem;
-  border-radius: 0.95rem;
+  border-radius: 0.8rem;
   border: 1px solid rgba(255, 255, 255, 0.07);
   background: rgba(255, 255, 255, 0.04);
   color: var(--sn-text);
@@ -252,7 +389,7 @@ a {
 
 .alert-error {
   padding: 0.95rem 1rem;
-  border-radius: 0.95rem;
+  border-radius: 0.8rem;
   background: rgba(239, 68, 68, 0.08);
   border: 1px solid rgba(239, 68, 68, 0.22);
   color: #fca5a5;
@@ -306,4 +443,32 @@ a {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(125, 211, 252, 0.45);
+}
+
+@media (max-width: 1024px) {
+  .app-sidebar {
+    top: 6.4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-topbar,
+  .app-brand,
+  .app-userpanel {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .app-usercopy {
+    white-space: normal;
+  }
+
+  .app-sidebar {
+    left: 0.75rem;
+    width: min(320px, calc(100vw - 1.5rem));
+  }
+
+  .app-main {
+    padding: 0 0.75rem 0.9rem;
+  }
 }

@@ -29,6 +29,8 @@ const Mentoring = () => {
     mode: 'Online',
   });
 
+  const isIgnorable422 = (err) => err?.response?.status === 422;
+
   const statusTone = useMemo(() => {
     return (status) => {
       if (status === 'Completed') return 'success';
@@ -56,7 +58,11 @@ const Mentoring = () => {
       const res = await api.get('/mentors/sessions');
       applySessions(res.data ?? []);
     } catch (e) {
-      setError(e?.response?.data?.message || e?.message || 'Failed to load sessions');
+      if (isIgnorable422(e)) {
+        applySessions([]);
+      } else {
+        setError(e?.response?.data?.message || e?.message || 'Failed to load sessions');
+      }
     } finally {
       setSessionsLoading(false);
     }
@@ -68,10 +74,18 @@ const Mentoring = () => {
       setLoadingBooking(true);
       setError('');
       try {
-        const [startupsRes, mentorsRes] = await Promise.all([api.get('/startups/'), api.get('/mentors/')]);
+        const [startupsRes, mentorsRes] = await Promise.allSettled([api.get('/startups/'), api.get('/mentors/')]);
         if (!mounted) return;
-        setStartups(startupsRes.data ?? []);
-        setMentors(mentorsRes.data ?? []);
+        setStartups(startupsRes.status === 'fulfilled' ? startupsRes.value.data ?? [] : []);
+        setMentors(mentorsRes.status === 'fulfilled' ? mentorsRes.value.data ?? [] : []);
+
+        const startupsError = startupsRes.status === 'rejected' ? startupsRes.reason : null;
+        const mentorsError = mentorsRes.status === 'rejected' ? mentorsRes.reason : null;
+        const blockingError = [startupsError, mentorsError].find((err) => err && !isIgnorable422(err));
+
+        if (blockingError) {
+          setError(blockingError?.response?.data?.message || blockingError?.message || 'Failed to load mentoring data');
+        }
       } catch (e) {
         if (mounted) {
           setError(e?.response?.data?.message || e?.message || 'Failed to load mentoring data');
@@ -135,7 +149,7 @@ const Mentoring = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="app-page space-y-6">
       <div className="flex items-end justify-between gap-4">
         <div>
           <h1 className="page-header-title">Mentoring</h1>

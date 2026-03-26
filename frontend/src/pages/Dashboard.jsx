@@ -17,41 +17,70 @@ const Dashboard = () => {
 
   const role = user?.role;
 
+  const getMessage = (err, fallback) => err?.response?.data?.message || err?.message || fallback;
+
   useEffect(() => {
     let mounted = true;
     const load = async () => {
       try {
         setError('');
         setLoading(true);
+        if (role === 'Admin') {
+          const [startupsRes, cohortsRes, progressRes, cohortSummaryRes] = await Promise.all([
+            api.get('/startups/'),
+            api.get('/cohorts/'),
+            api.get('/reports/startup-progress'),
+            api.get('/reports/cohort-summary'),
+          ]);
 
-        const startupReq = api.get('/startups/');
-        const cohortReq = api.get('/cohorts/');
-        const progressReq =
-          role === 'Admin'
-            ? api.get('/reports/startup-progress')
-            : role === 'Investor'
-              ? api.get('/reports/investor-pipeline')
-              : Promise.resolve({ data: [] });
-        const cohortSummaryReq = role === 'Admin' ? api.get('/reports/cohort-summary') : Promise.resolve({ data: [] });
-        const investorPipelineReq = role === 'Investor' ? api.get('/reports/investor-pipeline') : Promise.resolve({ data: [] });
+          if (!mounted) return;
+          setStartups(startupsRes.data ?? []);
+          setCohorts(cohortsRes.data ?? []);
+          setStartupProgress(progressRes.data ?? []);
+          setCohortSummary(cohortSummaryRes.data ?? []);
+          setInvestorPipeline([]);
+          return;
+        }
 
-        const [startupsRes, cohortsRes, progressRes, cohortSummaryRes, investorPipelineRes] = await Promise.all([
-          startupReq,
-          cohortReq,
-          progressReq,
-          cohortSummaryReq,
-          investorPipelineReq,
-        ]);
+        if (role === 'Investor') {
+          const pipelineRes = await api.get('/reports/investor-pipeline');
+          if (!mounted) return;
+          setInvestorPipeline(pipelineRes.data ?? []);
+          setStartups([]);
+          setCohorts([]);
+          setStartupProgress([]);
+          setCohortSummary([]);
+          return;
+        }
 
-        if (!mounted) return;
-        setStartups(startupsRes.data ?? []);
-        setCohorts(cohortsRes.data ?? []);
-        setStartupProgress(progressRes.data ?? []);
-        setCohortSummary(cohortSummaryRes.data ?? []);
-        setInvestorPipeline(investorPipelineRes.data ?? []);
+        if (role === 'Founder') {
+          const startupsRes = await api.get('/startups/');
+          if (!mounted) return;
+          setStartups(startupsRes.data ?? []);
+          setCohorts([]);
+          setStartupProgress([]);
+          setCohortSummary([]);
+          setInvestorPipeline([]);
+          return;
+        }
+
+        if (role === 'Mentor') {
+          if (!mounted) return;
+          setStartups([]);
+          setCohorts([]);
+          setStartupProgress([]);
+          setCohortSummary([]);
+          setInvestorPipeline([]);
+          return;
+        }
       } catch (e) {
         if (mounted) {
-          setError(e?.response?.data?.message || e?.message || 'Failed to load dashboard');
+          if (role === 'Founder' && e?.response?.status === 422) {
+            setStartups([]);
+            setError('');
+          } else {
+            setError(getMessage(e, 'Failed to load dashboard'));
+          }
         }
       } finally {
         if (mounted) setLoading(false);
@@ -103,7 +132,7 @@ const Dashboard = () => {
   }, [role, startupProgress, startups, cohorts, investorPipeline]);
 
   return (
-    <div className="space-y-6">
+    <div className="app-page space-y-6">
       <div className="flex items-end justify-between gap-4">
         <div>
           <h1 className="page-header-title">{headline}</h1>
