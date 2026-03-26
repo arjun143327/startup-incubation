@@ -518,6 +518,26 @@ def seed_demo_data() -> dict[str, str]:
             active_cohort_id,
             "Accepted",
         )
+        eco_id = ensure_startup(
+            cursor,
+            founder_two_id,
+            "EcoCycle",
+            "CleanTech",
+            "AI-driven waste management and recycling optimization platform moving towards a circular economy.",
+            "https://demo.startupnest.app/pitch/ecocycle-demo",
+            upcoming_cohort_id,
+            "Under Review",
+        )
+        data_id = ensure_startup(
+            cursor,
+            founder_one_id,
+            "DataFlow",
+            "FinTech",
+            "Real-time financial reconciliation API for high-volume marketplaces with machine learning outlier detection.",
+            "https://demo.startupnest.app/pitch/dataflow-demo",
+            active_cohort_id,
+            "Active",
+        )
 
         mentor_id = ensure_mentor(cursor, mentor_user_id, "Go-to-market strategy and B2B sales")
         investor_id = ensure_investor(
@@ -686,6 +706,17 @@ def seed_demo_data() -> dict[str, str]:
             None,
             "Scheduled",
         )
+        ensure_session(
+            cursor,
+            data_id,
+            mentor_id,
+            datetime.combine(today - timedelta(days=1), datetime.min.time()).replace(hour=14, minute=0),
+            "Online",
+            None,
+            None,
+            None,
+            "Scheduled",
+        )
 
         ensure_interest(cursor, solar_id, investor_id, "Introduced", now - timedelta(days=8))
         ensure_interest(cursor, medi_id, investor_id, "Pending", now - timedelta(days=3))
@@ -696,6 +727,10 @@ def seed_demo_data() -> dict[str, str]:
         ensure_audit(cursor, solar_id, "Submitted", "Accepted", now - timedelta(days=20))
         ensure_audit(cursor, solar_id, "Accepted", "Active", now - timedelta(days=12))
         ensure_audit(cursor, medi_id, "Submitted", "Accepted", now - timedelta(days=9))
+        ensure_audit(cursor, eco_id, "Draft", "Submitted", now - timedelta(days=5))
+        ensure_audit(cursor, eco_id, "Submitted", "Under Review", now - timedelta(days=2))
+        ensure_audit(cursor, data_id, "Submitted", "Accepted", now - timedelta(days=15))
+        ensure_audit(cursor, data_id, "Accepted", "Active", now - timedelta(days=10))
 
         create_views(cursor)
         conn.commit()

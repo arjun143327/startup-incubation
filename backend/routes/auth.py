@@ -47,7 +47,7 @@ def login():
 
     # Include role in JWT claim for RBAC easily
     access_token = create_access_token(
-        identity=user.user_id,
+        identity=str(user.user_id),
         additional_claims={"role": user.role},
         expires_delta=datetime.timedelta(hours=24)
     )
@@ -66,7 +66,7 @@ def login():
 @auth_bp.route('/me', methods=['GET'])
 @jwt_required()
 def get_profile():
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get(user_id)
     if not user:
         return jsonify({"message": "User not found"}), 404

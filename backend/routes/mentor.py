@@ -51,7 +51,7 @@ def list_sessions():
     """
     claims = get_jwt()
     role = claims.get('role')
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     if role not in ['Founder', 'Mentor', 'Admin']:
         return jsonify({"message": "Unauthorized"}), 403

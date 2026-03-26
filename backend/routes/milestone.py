@@ -70,7 +70,7 @@ def get_startup_milestones(startup_id):
     """
     claims = get_jwt()
     role = claims.get('role')
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     if role not in ['Admin', 'Founder']:
         return jsonify({"message": "Unauthorized"}), 403

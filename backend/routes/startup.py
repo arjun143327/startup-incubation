@@ -8,7 +8,7 @@ startup_bp = Blueprint('startup', __name__, url_prefix='/api/startups')
 @startup_bp.route('/', methods=['POST'])
 @jwt_required()
 def create_application():
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     claims = get_jwt()
     
     if claims.get('role') != 'Founder':
@@ -33,7 +33,7 @@ def create_application():
 @startup_bp.route('/', methods=['GET'])
 @jwt_required()
 def get_startups():
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     claims = get_jwt()
     
     if claims.get('role') == 'Admin':
