@@ -1,0 +1,172 @@
+
+StartupNest
+Startup Incubation Platform
+
+Product Requirements Document (PRD)
+
+Version 1.0  |  DBMS Academic Project
+Backend: Python (Flask)   |   Database: MySQL   |   Frontend: HTML, CSS, React
+
+
+
+
+
+1. Executive Summary
+StartupNest is a web-based Startup Incubation Management Platform that digitises and streamlines the end-to-end lifecycle of a startup incubator — from accepting applications to mentoring, milestone tracking, investor connect, and alumni management. Built as a DBMS academic project, it demonstrates advanced relational database design, normalisation, complex SQL queries, and a full-stack web architecture.
+
+The platform serves three primary actor groups: Startup Founders who apply to and participate in the incubation program; Mentors and Investors who guide and fund startups; and Incubator Administrators who manage the entire program. The system replaces fragmented spreadsheet-based workflows with a single, data-driven portal.
+
+2. Project Objectives
+2.1 Academic Objectives
+Design a fully normalised relational database schema (3NF / BCNF) with 15+ tables
+Implement complex SQL queries — JOINs, subqueries, stored procedures, triggers, views
+Demonstrate CRUD operations across all major entities
+Enforce referential integrity and constraints throughout
+
+2.2 Product Objectives
+Provide a single portal for startup application, evaluation, and onboarding
+Enable milestone-based progress tracking for each cohort
+Facilitate structured mentoring sessions with feedback logging
+Connect startups with investors and track funding rounds
+Generate reports and analytics for incubator administrators
+
+3. Scope
+3.1 In Scope
+User registration and role-based access (Admin, Founder, Mentor, Investor)
+Startup application submission and evaluation workflow
+Cohort and batch management
+Milestone creation, assignment, and completion tracking
+Mentoring session scheduling and feedback recording
+Investor profile and interest matching
+Funding round documentation
+Resource library (documents, links)
+Dashboard with analytics and charts
+Alumni/graduate startup tracking
+
+3.2 Out of Scope
+Real payment gateway integration
+Mobile native app (Android/iOS)
+Video conferencing integration
+AI-based mentor matching (future phase)
+
+4. Stakeholders & User Roles
+
+5. Functional Requirements
+5.1 User Management & Authentication
+Registration with email verification and role selection
+JWT-based login with role-based access control (RBAC)
+Password reset via email token
+Admin can create, deactivate, and reassign user roles
+Profile management for all user types
+
+5.2 Startup Application Module
+Multi-step application form: Team Info, Idea Description, Market, Financials
+File upload support for pitch decks (PDF)
+Application status tracking: Draft → Submitted → Under Review → Accepted / Rejected
+Admin evaluation panel with scoring rubric
+Automated email notifications on status change
+
+5.3 Cohort & Batch Management
+Create and manage incubation cohorts with start/end dates
+Assign accepted startups to cohorts
+Define cohort-level milestones and timelines
+Cohort dashboard showing all enrolled startups and progress
+
+5.4 Milestone Tracking
+Admins create milestones per cohort (e.g., MVP Demo, Market Validation)
+Startups mark milestones as In Progress / Completed with evidence upload
+Admin reviews and approves milestone completion
+Visual progress bar on startup dashboard
+
+5.5 Mentoring Management
+Mentor profiles with domain expertise tags
+Admin assigns mentors to startups
+Session booking interface (date, time, mode)
+Post-session feedback form for both mentor and founder
+Session history log per startup
+
+5.6 Investor Connect
+Investor profile with investment thesis, sector focus, ticket size
+Startups can express interest in connecting with investors
+Investors can mark interest in startups
+Admin facilitates and records introduction status
+Funding round documentation (Round type, Amount, Date, Lead Investor)
+
+5.7 Resource Library
+Admin uploads resources (templates, guides, recordings)
+Resources tagged by category and cohort
+Startups can browse and download resources
+
+5.8 Reports & Analytics Dashboard
+Admin: Applications by status, Cohort progress heatmap, Funding raised per cohort
+Founder: Milestone completion rate, Mentor session count
+Investor: Startups viewed, interests expressed
+Export reports to CSV
+
+6. Database Design (MySQL)
+6.1 Entity-Relationship Overview
+The database follows Third Normal Form (3NF). Key entities and their relationships are described below:
+
+
+6.2 Advanced SQL Features
+Stored Procedures: sp_enroll_startup, sp_evaluate_application, sp_generate_cohort_report
+Triggers: trg_application_status_log (audit trail on status change), trg_milestone_completion_notify
+Views: vw_startup_progress, vw_investor_pipeline, vw_cohort_summary
+Transactions: Multi-step application approval with rollback on failure
+Indexes: On foreign keys, status fields, and email for query optimisation
+
+7. Technical Architecture
+7.1 Tech Stack
+
+7.2 System Architecture
+3-tier architecture: Presentation (React SPA) → Application (Flask REST API) → Data (MySQL)
+React frontend communicates with Flask via RESTful JSON APIs
+Flask ORM layer (SQLAlchemy) abstracts MySQL operations
+JWT tokens passed in Authorization header for all protected routes
+CORS configured to allow React dev server during development
+
+7.3 API Design (Key Endpoints)
+
+8. Non-Functional Requirements
+
+9. User Stories
+Admin Stories
+As an Admin, I want to review startup applications and approve/reject them so that only qualifying startups join the cohort.
+As an Admin, I want to create cohorts with defined start dates and milestones so that the program structure is clear.
+As an Admin, I want to assign mentors to startups based on domain alignment so that guidance is relevant.
+As an Admin, I want to generate a cohort progress report so that I can present outcomes to stakeholders.
+
+Founder Stories
+As a Founder, I want to submit my application with a pitch deck so that I can be considered for the program.
+As a Founder, I want to view my milestone checklist and mark items complete so that I can track my progress.
+As a Founder, I want to book a mentoring session with my assigned mentor so that I get timely guidance.
+As a Founder, I want to see investor profiles and express interest so that I can explore funding opportunities.
+
+Mentor Stories
+As a Mentor, I want to see all startups assigned to me so that I can prepare for sessions.
+As a Mentor, I want to log session notes and rate the startup so that progress is documented.
+
+Investor Stories
+As an Investor, I want to browse active startups filtered by sector so that I can find relevant deals.
+As an Investor, I want to mark interest in a startup so that the admin can facilitate an introduction.
+
+10. Project Milestones & Deliverables
+
+11. Risks & Mitigations
+
+12. Appendix
+12.1 Glossary
+CRM: Cohort/batch lifecycle management within the platform
+JWT: JSON Web Token used for stateless authentication
+3NF: Third Normal Form — each non-key attribute depends on the whole key only
+ORM: Object-Relational Mapper — SQLAlchemy abstracts SQL from Python code
+SPA: Single Page Application — the React frontend
+
+12.2 References
+MySQL 8.x Documentation — dev.mysql.com
+Flask Documentation — flask.palletsprojects.com
+React 18 Documentation — react.dev
+SQLAlchemy ORM Documentation — docs.sqlalchemy.org
+Flask-JWT-Extended — flask-jwt-extended.readthedocs.io
+
+End of Document — StartupNest PRD v1.0
